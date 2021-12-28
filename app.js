@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
+const session = require('express-session'); // 세션 쿠키파셔 
+const passport = require('./config/passport'); // 패스포트 
 const boardRouter = require('./routes/board');
 const userRouter = require('./routes/user');
 
@@ -15,6 +17,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
 app.use(express.json());
 app.use(express.urlencoded({extended: false})); // querystring
+app.use(cookieParser('session-secret-key'));
+app.use(session({
+    secret: 'session-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false, 
+    }, 
+})); 
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    // 
+}); 
 
 // 각 url에 대한 라우터들...  
 app.get('/', (req, res) => {
@@ -22,6 +41,7 @@ app.get('/', (req, res) => {
 });
 app.use('/board', boardRouter);
 app.use('/user', userRouter); 
+
 
 // 유효하지 않은 url 
 app.use((req, res, next) => {
