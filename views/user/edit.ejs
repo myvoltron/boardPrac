@@ -1,0 +1,27 @@
+<div>
+    <a href="/user">user 목록</a>
+    <a href="/user/new">회원가입</a>
+</div>
+<h2>user 수정하기</h2>
+<div>
+    <form id="Form" action="/user/<%= result.id%>" method="post">
+        <table>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" id="password" name="password"></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" id="username" name="username" value="<%= result.name%>"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" id="email" name="email" value="<%= result.email%>"></td>
+            </tr>
+            <tr>
+                <td><a href="/user/<%= result.id%>">Back</a></td>
+                <td><button type="submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+</div>

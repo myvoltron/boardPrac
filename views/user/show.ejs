@@ -1,0 +1,31 @@
+<div>
+    <a href="/user">user목록</a>
+    <a href="/user/new">회원가입</a>
+</div>
+<div>
+    <table>
+        <tr>
+            <td>이름</td>
+            <td>
+                <%= result.name %>
+            </td>
+        </tr>
+        <tr>
+            <td>이메일</td>
+            <td>
+                <%= result.email%>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="/user/<%= result.id %>/edit">Edit</a>
+            </td>
+            <td>
+                <form action="/user/<%= result.id%>/delete" method="post">
+                    <input type="hidden" value="<%= result.id%>" name="id" id="id">
+                    <button type="submit">remove</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,31 @@
+<div>
+    <a href="/board">글 목록</a>
+    <a href="/board/new">글 쓰기</a>
+</div>
+<div>
+    <table>
+        <tr>
+            <td>제목</td>
+            <td>
+                <%= result.title %>
+            </td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td>
+                <%= result.content %>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="/board/<%= result.id %>/edit">Edit</a>
+            </td>
+            <td>
+                <form action="/board/<%= result.id%>/delete" method="post">
+                    <input type="hidden" value="<%= result.id%>" name="id" id="id">
+                    <button type="submit">remove</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
