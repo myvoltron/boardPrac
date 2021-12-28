@@ -3,7 +3,7 @@ const path = require('path');
 const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
 const boardRouter = require('./routes/board');
-const deleteRouter = require('./routes/delete');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
     res.redirect('/board');
 });
 app.use('/board', boardRouter);
-app.use('/delete', deleteRouter);
+app.use('/user', userRouter); 
 
 // 유효하지 않은 url 
 app.use((req, res, next) => {

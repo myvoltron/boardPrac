@@ -17,13 +17,13 @@ router.get('/', (req, res, next) => {
         if (err) throw err; 
         console.log(result);
 
-        res.render('board', { result }); 
+        res.render('board/index', { result }); 
     });
 });
 
 // 글 쓰기 창
 router.get('/new', (req, res) => {
-    res.render('post');
+    res.render('board/new');
 });
 
 // 글 쓰기 
@@ -45,9 +45,9 @@ router.get('/:id', (req, res) => {
     console.log(id); 
     connection.query(`SELECT id, title, content FROM board WHERE id = ${id}`, (err, result, fields) => {
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
 
-        res.render('read', { result: result[0] }); 
+        res.render('board/show', { result: result[0] }); 
     });
 }); 
 
@@ -57,8 +57,10 @@ router.get('/:id/edit', (req, res) => {
     console.log(id);
     const sql = "select id, title, content from board where id=?";
     connection.query(sql, [id], (err, result) => {
-        console.log(result); 
-        res.render('edit', { result: result[0] });
+        if (err) throw err; 
+        // console.log(result); 
+
+        res.render('board/edit', { result: result[0] });
     });
 });
 

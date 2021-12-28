@@ -16,6 +16,10 @@ td, th {
     border: 1px solid gray;
 }
 
+#menubar {
+    margin-bottom: 3em;
+}
+
 #menubar ul {
     list-style-type: none;
     width: 100%;
@@ -43,7 +47,7 @@ td, th {
 #index {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
 }
 
 #index td, #index th {
