@@ -64,3 +64,6 @@ app.use((err, req, res, next) => {
 
 
 이 예제를 반복해서 간단한 CRUD는 눈감고 만들 수 있도록 노력해보자!
+
+
+session <-> passport 관계 및 사용법 참고 : https://victorydntmd.tistory.com/35 
