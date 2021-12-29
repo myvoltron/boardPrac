@@ -70,5 +70,7 @@ app.use((err, req, res, next) => {
 하지만, 이를 이용한 로그인/로그아웃은 구현이 어려운것같다. 우선 쿠키와 세션에 대해서 공부를 하고 거기에 passport를 적용시키는 방향으로 진행하는게 좋을거같다. 
 
 쿠키와 express-session 참고 : https://victorydntmd.tistory.com/35  
+                           : https://m.blog.naver.com/pjok1122/221555161680
 
-passport ?
+passport 참고 : https://www.passportjs.org/docs/authenticate/ 
+

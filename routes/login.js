@@ -16,9 +16,9 @@ const connection = mysql.createConnection({
 
 // 로그인 form 
 router.get('/', (req, res) => {
-    const sessionValue = req.session;  
+    const session = req.session;  
     res.render('login', {
-        session: sessionValue
+        session, 
     }); 
 }); 
 
@@ -40,7 +40,8 @@ router.post('/', (req, res) => {
 
             if (result) {
                 console.log('로그인 성공'); 
-                req.session.name = name; 
+                req.session.nickname = name; 
+                req.session.login = true; 
                 res.redirect('/user'); 
             } else {
                 console.log('아이디나 비밀번호를 다시 확인하시오'); 

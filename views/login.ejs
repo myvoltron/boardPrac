@@ -1,7 +1,8 @@
 <h2>로그인</h2>
 <div>
-    <% if (session.name) {%>
+    <% if (session.login) {%>
         <h3>로그인 성공!</h3>
+        <h4><%= session.nickname%>님 안녕하세요</h4>
         <form action="/logout" method="get">
             <button type="submit">로그아웃</button>
         </form> 
