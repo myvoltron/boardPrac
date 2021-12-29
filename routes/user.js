@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
     database: "board",
 });
 
-connection.connect();
+// connection.connect();
 
 // user 목록
 router.get('/', (req, res) => {

@@ -1,0 +1,25 @@
+<h2>로그인</h2>
+<div>
+    <% if (session.name) {%>
+        <h3>로그인 성공!</h3>
+        <form action="/logout" method="get">
+            <button type="submit">로그아웃</button>
+        </form> 
+    <% } else { %>
+        <form action="/login", method="post">
+            <table>
+                <tr>
+                    <td>아이디 입력</td>
+                    <td><input type="text" id="id" name="id"></td>
+                </tr>
+                <tr>
+                    <td>비밀번호 입력</td>
+                    <td><input type="password" id="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">login</button></td>
+                </tr>
+            </table>
+        </form>
+    <% } %>
+</div>

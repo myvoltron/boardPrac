@@ -1,4 +1,5 @@
-# boardTutorial
+# boardPrac
+
 node.js를 활용한 CRUD 게시판 예제입니다. 
 
 사용한 패키지는 다음과 같습니다. 
@@ -63,7 +64,11 @@ app.use((err, req, res, next) => {
 6. error 처리를 해주어서 서버가 멈추지 않게 해주는 미들웨어 
 
 
-이 예제를 반복해서 간단한 CRUD는 눈감고 만들 수 있도록 노력해보자!
+이제 회원가입 시스템은 만들 수 있었다. 
+그리고 비밀번호 또한 bcrypt 모듈을 사용해서 암호화를 해서 DB에 넣었다. 
 
+하지만, 이를 이용한 로그인/로그아웃은 구현이 어려운것같다. 우선 쿠키와 세션에 대해서 공부를 하고 거기에 passport를 적용시키는 방향으로 진행하는게 좋을거같다. 
 
-session <-> passport 관계 및 사용법 참고 : https://victorydntmd.tistory.com/35 
+쿠키와 express-session 참고 : https://victorydntmd.tistory.com/35  
+
+passport ?

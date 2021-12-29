@@ -9,13 +9,13 @@ const connection = mysql.createConnection({
     database: "board",
 });
 
-connection.connect();
+// connection.connect();
 
 // 게시판 목록보기 
 router.get('/', (req, res, next) => {
     connection.query("SELECT id, title, created_at FROM board", (err, result, fields) => {
         if (err) throw err; 
-        console.log(result);
+        // console.log(result);
 
         res.render('board/index', { result }); 
     });

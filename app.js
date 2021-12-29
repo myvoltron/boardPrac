@@ -1,22 +1,32 @@
 const express = require('express');
 const path = require('path');
 const ejs = require('ejs');
+const morgan = require('morgan'); 
 const expressLayouts = require('express-ejs-layouts');
-const session = require('express-session'); // 세션 쿠키파셔 
-const passport = require('./config/passport'); // 패스포트 
+const cookieParser = require('cookie-parser'); // 쿠키
+const session = require('express-session'); // 세션 
+// const passport = require('./config/passport'); // 패스포트 
 const boardRouter = require('./routes/board');
 const userRouter = require('./routes/user');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 
 const app = express();
 
 app.set('port', 8081); 
+
+// view 설정 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 
+// 미들웨어들 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(morgan('dev')); 
 app.use(expressLayouts);
 app.use(express.json());
 app.use(express.urlencoded({extended: false})); // querystring
+
+// 세션 관련 미들웨어
 app.use(cookieParser('session-secret-key'));
 app.use(session({
     secret: 'session-secret-key',
@@ -28,20 +38,14 @@ app.use(session({
     }, 
 })); 
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use((req, res, next) => {
-    // 
-}); 
-
 // 각 url에 대한 라우터들...  
 app.get('/', (req, res) => {
     res.redirect('/board');
 });
 app.use('/board', boardRouter);
 app.use('/user', userRouter); 
-
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 // 유효하지 않은 url 
 app.use((req, res, next) => {
