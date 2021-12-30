@@ -5,7 +5,20 @@ const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser'); // 쿠키
 const session = require('express-session'); // 세션 
-// const passport = require('./config/passport'); // 패스포트 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy; 
+
+const bcrypt = require('bcrypt'); 
+const saltRounds = 10; 
+
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: 'root',
+    password: "111111",
+    database: "board",
+});
 
 const app = express();
 
@@ -34,6 +47,48 @@ app.use(session({
     }, 
 })); 
 
+// passport 관련 미들웨어
+app.use(passport.initialize());
+app.use(passport.session()); 
+
+// passport 전략 
+passport.use(new LocalStrategy({
+    usernameField: 'id',
+    passwordField: 'password', 
+},
+function (username, password, done) {
+    const sql = "select * from user where id=?"; 
+    connection.query(sql, username, (err, users) => {
+        if (err) { done(err); }
+        if (!users) {
+            return done(null, false, { message: 'Incorrect username or password.' }); 
+        }
+        
+        const user = users[0]; 
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (err) { return done(err); }
+            if (result === false) {
+                return done(null, false, { message: 'Incorrect username or password.' }); 
+            }
+
+            return done(null, user); 
+        });
+    });
+})); 
+
+passport.serializeUser((user, done) => {
+    done(null, user.id); 
+});
+
+passport.deserializeUser((id, done) => {
+    const sql = "select * from user where id=?";
+    connection.query(sql, id, (err, users) => {
+        const user = users[0];
+        done(err, user); 
+    });
+});
+
+// 라우터 
 const boardRouter = require('./routes/board');
 const userRouter = require('./routes/user');
 const loginRouter = require('./routes/login');

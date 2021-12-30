@@ -13,8 +13,6 @@ const connection = mysql.createConnection({
     database: "board",
 });
 
-// connection.connect();
-
 // user 목록
 router.get('/', (req, res) => {
     const sql = "select id, name from user order by name asc";
