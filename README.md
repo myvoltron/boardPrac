@@ -74,3 +74,5 @@ app.use((err, req, res, next) => {
 
 passport 참고 : https://www.passportjs.org/docs/authenticate/ 
 
+위의 passport로 로그인 인증을 할 수 있었고 session을 통해 로그인 상태를 계속 유지할 수 있었다. 
+그 로그인 상태를 이용해 접근제한을 할 수도 있고 이용자에 따라 동적으로 다른 view를 보여줄 수 있다.
