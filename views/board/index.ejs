@@ -8,6 +8,7 @@
             <tr>
                 <th>ID</th>
                 <th>Title</th>
+                <th>writter</th>
                 <th>date</th>
             </tr>
         </thead>
@@ -16,6 +17,11 @@
                 <tr>
                     <td><%= elem.id%></td>
                     <td><a href="/board/<%= elem.id%>"><%= elem.title%></a></td>
+                    <% if (elem.writter) { %>
+                        <td><%= elem.writter%></td>
+                    <% } else { %>
+                        <td>ㅇㅇ</td>
+                    <% } %>
                     <td><%= elem.created_at%></td>
                 </tr>
                 <% }); %>

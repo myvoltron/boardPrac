@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
     const user = req.user; 
     console.log(user); 
     res.render('login', {
-        user, 
+        user, isLogin: req.login
     }); 
 }); 
 
 router.post('/', passport.authenticate('local', {
     failureRedirect: '/login', 
 }), (req, res) => { 
-    res.redirect('/user'); 
+    res.redirect('/board'); 
 });
 
 module.exports = router; 

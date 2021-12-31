@@ -3,13 +3,11 @@ const path = require('path');
 const morgan = require('morgan'); 
 const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
+const bcrypt = require('bcrypt'); // 암호화
 const cookieParser = require('cookie-parser'); // 쿠키
 const session = require('express-session'); // 세션 
-const passport = require('passport');
+const passport = require('passport'); // passport 
 const LocalStrategy = require('passport-local').Strategy; 
-
-const bcrypt = require('bcrypt'); 
-const saltRounds = 10; 
 
 const mysql = require('mysql');
 
@@ -95,6 +93,16 @@ const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 
 // 각 url에 대한 라우터들...  
+app.use((req, res, next) => {
+    if (req.user) {
+        req.login = true; 
+    } else {
+        req.login = false; 
+    }
+
+    next(); 
+});
+
 app.get('/', (req, res) => {
     res.redirect('/board');
 });

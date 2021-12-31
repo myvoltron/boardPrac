@@ -21,18 +21,18 @@ router.get('/', (req, res) => {
 
         console.log('user 목록 가져오기 성공'); 
         // console.log(result);
-        res.render('user/index', { result }); 
+        res.render('user/index', { result, isLogin: req.login }); 
     }); 
 }); 
 
 // new user form 
 router.get('/new', (req, res) => {
     console.log('회원가입 창을 불러옵니다...'); 
-    res.render('user/new'); 
+    res.render('user/new', { isLogin: req.login }); 
 });
 
 // new user : 회원가입
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     const id = req.body.id;
     const password1 = req.body.password1;
     const password2 = req.body.password2; 
@@ -43,9 +43,13 @@ router.post('/', (req, res) => {
     if (password1 === password2) {// 한 번더 체크 
         bcrypt.hash(password1, saltRounds, (err, hashed) => {
             connection.query(sql, [id, hashed, username, email], (err, result) => {
-                if (err) throw err;
-                console.log('회원가입 성공!'); 
-                res.redirect('/user'); 
+                if (err) {
+                    console.log('모종의 이유로 회원가입 실패...');
+                    next(err); 
+                } else {
+                    console.log('회원가입 성공!'); 
+                    res.redirect('/board'); 
+                }
             });
         });
     } else {
@@ -62,7 +66,7 @@ router.get('/:id', (req, res) => {
     connection.query(sql, id, (err, result) => {
         if (err) throw err; 
         console.log('user 상세보기'); 
-        res.render('user/show', { result: result[0] }); 
+        res.render('user/show', { result: result[0], isLogin: req.login }); 
     });
 });
 
@@ -74,7 +78,7 @@ router.get('/:id/edit', (req, res) => {
     connection.query(sql, id, (err, result) => {
         if (err) throw err; 
         console.log('user 편집하기 창'); 
-        res.render('user/edit', { result: result[0] }); 
+        res.render('user/edit', { result: result[0], isLogin: req.login }); 
     });
 }); 
 
