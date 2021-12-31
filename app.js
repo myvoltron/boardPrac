@@ -3,20 +3,9 @@ const path = require('path');
 const morgan = require('morgan'); 
 const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
-const bcrypt = require('bcrypt'); // 암호화
 const cookieParser = require('cookie-parser'); // 쿠키
 const session = require('express-session'); // 세션 
-const passport = require('passport'); // passport 
-const LocalStrategy = require('passport-local').Strategy; 
-
-const mysql = require('mysql');
-
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: 'root',
-    password: "111111",
-    database: "board",
-});
+const passport = require('./passportConfig'); // passport
 
 const app = express();
 
@@ -48,49 +37,17 @@ app.use(session({
 // passport 관련 미들웨어
 app.use(passport.initialize());
 app.use(passport.session()); 
+app.use((req, res, next) => { // res객체에 추가 정보
+    /*
+    res.locals에 담긴 변수는 ejs에서 사용가능하다는걸 기억해두자
+    req.isAuthenticated()는 passport에 의해 추가된 메서드인데 로그인여부를 반환한다. 
+    req.user 또한 passport에서 추가한 건데 로그인한 user 객체가 담겨있다. 
+    */
 
-// passport 전략 
-passport.use(new LocalStrategy({
-    usernameField: 'id',
-    passwordField: 'password', 
-},
-function (username, password, done) {
-    const sql = "select * from user where id=?"; 
-    connection.query(sql, username, (err, users) => {
-        if (err) { done(err); }
-        if (!users) {
-            return done(null, false, { message: 'Incorrect username or password.' }); 
-        }
-        
-        const user = users[0]; 
-        bcrypt.compare(password, user.password, (err, result) => {
-            if (err) { return done(err); }
-            if (result === false) {
-                return done(null, false, { message: 'Incorrect username or password.' }); 
-            }
-
-            return done(null, user); 
-        });
-    });
-})); 
-
-passport.serializeUser((user, done) => {
-    done(null, user.id); 
-});
-
-passport.deserializeUser((id, done) => {
-    const sql = "select * from user where id=?";
-    connection.query(sql, id, (err, users) => {
-        const user = users[0];
-        done(err, user); 
-    });
-});
-
-// 라우터 
-const boardRouter = require('./routes/board');
-const userRouter = require('./routes/user');
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
+    res.locals.isAuthenticated = req.isAuthenticated(); 
+    res.locals.currentUser = req.user; 
+    next();
+}); 
 
 // 각 url에 대한 라우터들...  
 app.use((req, res, next) => {
@@ -102,6 +59,12 @@ app.use((req, res, next) => {
 
     next(); 
 });
+
+// 라우터 
+const boardRouter = require('./routes/board');
+const userRouter = require('./routes/user');
+const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 
 app.get('/', (req, res) => {
     res.redirect('/board');

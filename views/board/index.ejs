@@ -17,8 +17,8 @@
                 <tr>
                     <td><%= elem.id%></td>
                     <td><a href="/board/<%= elem.id%>"><%= elem.title%></a></td>
-                    <% if (elem.writter) { %>
-                        <td><%= elem.writter%></td>
+                    <% if (elem.userID) { %>
+                        <td><%= elem.userID%></td>
                     <% } else { %>
                         <td>ㅇㅇ</td>
                     <% } %>

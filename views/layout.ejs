@@ -6,20 +6,7 @@
     <title>게시판 연습</title>
 </head>
 <body>
-    <nav id="menubar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/board">Board</a></li>
-            <% if (isLogin) {%>
-                <li style="float: right;"><a href="/logout">log out</a></li>
-            <% } else { %>
-                <li style="float: right;"><a href="/user/new">Sign up</a></li>
-                <li style="float: right;"><a href="/user">User</a></li>
-                <li style="float: right;"><a href="/login">log in</a></li>
-            <% } %>
-        </ul>
-    </nav>
+    <%- include('nav') %>
     <%- body%> 
 </body>
 </html>

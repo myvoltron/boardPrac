@@ -11,16 +11,18 @@ const connection = mysql.createConnection({
 
 // 글 목록보기 
 router.get('/', (req, res) => { // 로그인이 되어있지 않더라도 글 목록은 볼 수 있다. 
-    connection.query("SELECT * FROM board", (err, result) => {
+    const sql = "SELECT board.id AS id, board.title AS title, board.created_at AS created_at, user.id AS userID FROM board JOIN user ON board.writer_id = user.id";
+    connection.query(sql, (err, result) => {
         if (err) throw err;
-        res.render('board/index', { result, isLogin: req.login });
+        console.log(result);
+        res.render('board/index', { result });
     });
 });
 
 // 글 쓰기 창
 router.get('/new', (req, res) => {
     if (req.user) {
-        res.render('board/new', { isLogin: req.login });
+        res.render('board/new');
     } else {
         console.log('로그인이 필요한 작업');
         res.redirect('/login');
@@ -53,7 +55,7 @@ router.get('/:id', (req, res) => {
     connection.query(`SELECT id, title, content FROM board WHERE id = ${id}`, (err, result, fields) => {
         if (err) throw err;
 
-        res.render('board/show', { result: result[0], isLogin: req.login });
+        res.render('board/show', { result: result[0] });
     });
 });
 
@@ -70,7 +72,7 @@ router.get('/:id/edit', (req, res) => {
 
         if (req.user) { // 로그인한 경우 
             if (result.writer_id === req.user.id) { // id까지 같은 경우 
-                res.render('board/edit', { result, isLogin: req.login });
+                res.render('board/edit', { result });
             } else {
                 req.logout(); 
                 res.redirect('/board'); 

@@ -21,14 +21,14 @@ router.get('/', (req, res) => {
 
         console.log('user 목록 가져오기 성공'); 
         // console.log(result);
-        res.render('user/index', { result, isLogin: req.login }); 
+        res.render('user/index', { result }); 
     }); 
 }); 
 
 // new user form 
 router.get('/new', (req, res) => {
     console.log('회원가입 창을 불러옵니다...'); 
-    res.render('user/new', { isLogin: req.login }); 
+    res.render('user/new'); 
 });
 
 // new user : 회원가입
@@ -66,7 +66,7 @@ router.get('/:id', (req, res) => {
     connection.query(sql, id, (err, result) => {
         if (err) throw err; 
         console.log('user 상세보기'); 
-        res.render('user/show', { result: result[0], isLogin: req.login }); 
+        res.render('user/show', { result: result[0] }); 
     });
 });
 
@@ -78,7 +78,7 @@ router.get('/:id/edit', (req, res) => {
     connection.query(sql, id, (err, result) => {
         if (err) throw err; 
         console.log('user 편집하기 창'); 
-        res.render('user/edit', { result: result[0], isLogin: req.login }); 
+        res.render('user/edit', { result: result[0] }); 
     });
 }); 
 
