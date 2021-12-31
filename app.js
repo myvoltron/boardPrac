@@ -54,7 +54,10 @@ const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
 
 app.get('/', (req, res) => {
-    res.redirect('/board');
+    res.render('home');
+});
+app.get('/about', (req, res) => {
+    res.render('about');
 });
 app.use('/board', boardRouter);
 app.use('/user', userRouter); 
