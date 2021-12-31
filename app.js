@@ -9,9 +9,8 @@ const passport = require('./passportConfig'); // passport
 
 const app = express();
 
+// 설정 
 app.set('port', 8081); 
-
-// view 설정 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 
@@ -49,32 +48,19 @@ app.use((req, res, next) => { // res객체에 추가 정보
     next();
 }); 
 
-// 각 url에 대한 라우터들...  
-app.use((req, res, next) => {
-    if (req.user) {
-        req.login = true; 
-    } else {
-        req.login = false; 
-    }
-
-    next(); 
-});
-
 // 라우터 
 const boardRouter = require('./routes/board');
 const userRouter = require('./routes/user');
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
+const authRouter = require('./routes/auth');
 
 app.get('/', (req, res) => {
     res.redirect('/board');
 });
 app.use('/board', boardRouter);
 app.use('/user', userRouter); 
-app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
+app.use('/auth', authRouter);
 
-// 유효하지 않은 url 
+// 유효하지 않은 url || 404
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
     error.status = 404;

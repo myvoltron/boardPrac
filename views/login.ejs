@@ -3,11 +3,11 @@
     <% if (user) {%>
         <h3>로그인 성공!</h3>
         <h4><%= user.name%>님 안녕하세요</h4>
-        <form action="/logout" method="get">
+        <form action="/auth/logout" method="get">
             <button type="submit">로그아웃</button>
         </form> 
     <% } else { %>
-        <form action="/login", method="post">
+        <form action="/auth/login", method="post">
             <table>
                 <tr>
                     <td>아이디 입력</td>
