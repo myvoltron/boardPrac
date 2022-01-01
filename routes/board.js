@@ -11,11 +11,35 @@ const connection = mysql.createConnection({
 
 // 글 목록보기 
 router.get('/', (req, res) => { // 로그인이 되어있지 않더라도 글 목록은 볼 수 있다. 
-    const sql = "SELECT board.id AS id, board.title AS title, board.created_at AS created_at, user.id AS userID FROM board JOIN user ON board.writer_id = user.id";
-    connection.query(sql, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.render('board/index', { result });
+    // 페이지네이션 
+    // parseInt로 정수로 만들고
+    // Math.max로 양수를 보장한다. 
+    let page = Math.max(1, parseInt(req.query.page)); 
+    let limit = Math.max(1, parseInt(req.query.limit)); 
+    page = isNaN(page) ? 1 : page; // 숫자가 아니면 1로 보정 
+    limit = isNaN(limit) ? 10 : limit; 
+    
+    const skip = (page - 1) * limit; 
+    connection.query('select count(id) from board', (err, result) => { // 게시글의 수를 가져온다. 
+        if (err) throw err; 
+
+        const count = result[0]['count(id)'];
+        console.log(count);
+
+        const maxPage = Math.ceil(count / limit);
+        // const sql = "SELECT board.id AS id, board.title AS title, board.created_at AS created_at, user.id AS userID FROM board JOIN user ON board.writer_id = user.id";
+        const sql = `SELECT * FROM board ORDER BY created_at DESC LIMIT ${skip}, ${limit}`;
+        connection.query(sql, (err, post) => {
+            if (err) throw err;
+            // console.log(post);
+
+            res.render('board/index', { 
+                post: post, 
+                currentPage: page, 
+                maxPage: maxPage,
+                limit: limit, 
+            });
+        }); 
     });
 });
 

@@ -8,17 +8,17 @@
             <tr>
                 <th>ID</th>
                 <th>Title</th>
-                <th>writter</th>
+                <th>Author</th>
                 <th>date</th>
             </tr>
         </thead>
         <tbody>
-            <% result.forEach(elem => { %>
+            <% post.forEach(elem => { %>
                 <tr>
                     <td><%= elem.id%></td>
                     <td><a href="/board/<%= elem.id%>"><%= elem.title%></a></td>
-                    <% if (elem.userID) { %>
-                        <td><%= elem.userID%></td>
+                    <% if (elem.writer_id) { %>
+                        <td><%= elem.writer_id%></td>
                     <% } else { %>
                         <td>ㅇㅇ</td>
                     <% } %>
@@ -27,4 +27,29 @@
                 <% }); %>
         </tbody>
     </table>
+
+    <div class="page">
+        <nav>
+            <%
+                const offset = 2; 
+                const previousBtnEnabled = currentPage>1; 
+                const nextBtnEnabled = currentPage<maxPage; 
+            %>
+            <ul>
+                <li>
+                    <a href="/board?page=<%= currentPage-1 %>&limit=<%= limit %>">&laquo;</a>
+                </li>
+                <% for(let i=1; i<=maxPage; i++) { %>
+                    <% if (i==1 || i==maxPage || (i>=currentPage-offset && i<=currentPage+offset)) { %>
+                        <li><a href="/board?page=<%= i %>&limit=<%= limit %>"><%= i %></a></li>
+                    <% } else if (i==2 || i==maxPage-1) { %>
+                        <li><a>...</a></li>
+                    <% } %>
+                <% } %>
+                <li>
+                    <a href="/board?page=<%= currentPage+1 %>&limit=<%= limit %>">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
