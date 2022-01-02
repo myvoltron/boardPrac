@@ -89,5 +89,8 @@ ejs에서 따로 처리를 하면 될거같다.
 검색기능 
 - mysql의 LIKE로 검색할 수 있다고 한다.
 
-CSS flex - https://studiomeal.com/archives/197
-CSS table - https://www.codingfactory.net/10510#i-5
+1월 3일 공부요소
+- mysql과 연결할 때 date 값을 보기 좋게 받아올려면 dateString: 'date'를 추가하면 된다. 
+- https://www.codingfactory.net/10510#i-5
+- CSS flex - https://studiomeal.com/archives/197
+- CSS table - https://www.codingfactory.net/10510#i-5

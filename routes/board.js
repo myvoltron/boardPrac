@@ -33,10 +33,6 @@ router.get('/', (req, res) => { // 로그인이 되어있지 않더라도 글 �
         connection.query(sql, (err, post) => {
             if (err) throw err;
             // console.log(post);
-            post.forEach(elem => {
-                const date = elem.created_at;
-                console.log(date);
-            });
             res.render('board/index', { 
                 post: post, 
                 currentPage: page, 
