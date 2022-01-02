@@ -1,33 +1,41 @@
-<div>
-    <a href="/board">글 목록</a>
-    <a href="/board/new">글 쓰기</a>
-</div>
-<div>
-    <table>
-        <tr>
-            <td>제목</td>
-            <td>
-                <%= result.title %>
-            </td>
-        </tr>
-        <tr>
-            <td>내용</td>
-            <td>
-                <%= result.content %>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a href="/board/<%= result.id %>/edit">Edit</a>
-            </td>
-            <td>
-                <form action="/board/<%= result.id%>/delete" method="post">
-                    <input type="hidden" value="<%= result.id%>" name="id" id="id">
-                    <button type="submit">remove</button>
-                </form>
-            </td>
-        </tr>
-    </table>
-
-    <a href="/board">Back</a>
+<div class="article">
+    <div class="articleNav">
+        <a href="/board">글 목록</a>
+        <a href="/board/new">글 쓰기</a> 
+    </div>
+    <div class="main">
+        <h2>
+            글 상세보기
+        </h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td>제목</td>
+                    <td>
+                        <%= result.title %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>작성자</td>
+                    <td>
+                        <%= result.writer_id%>
+                    </td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td>
+                        <%= result.content %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+    <div class="btnGroup">
+        <a href="/board">Back</a>
+        <form action="/board/<%= result.id%>/delete" method="post">
+            <input type="hidden" value="<%= result.id%>" name="id" id="id">
+            <button type="submit">remove</button>
+        </form>
+        <a href="/board/<%= result.id %>/edit">Edit</a>
+    </div>
 </div>

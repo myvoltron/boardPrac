@@ -81,3 +81,13 @@ passport 참고 : https://www.passportjs.org/docs/authenticate/
 
 res.locals에 담겨진 변수는 ejs에서 바로 사용이 가능하다고 한다. 여기에 로그인 상태 정보를 넣어서
 ejs에서 따로 처리를 하면 될거같다. 
+
+페이지네이션
+- mysql의 OFFSET기반 LIMIT으로 구현가능
+- 무한스크롤은? 
+
+검색기능 
+- mysql의 LIKE로 검색할 수 있다고 한다.
+
+CSS flex - https://studiomeal.com/archives/197
+CSS table - https://www.codingfactory.net/10510#i-5

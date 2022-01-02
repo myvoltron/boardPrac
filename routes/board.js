@@ -7,6 +7,7 @@ const connection = mysql.createConnection({
     user: 'root',
     password: "111111",
     database: "board",
+    dateStrings: 'date', // date 정보를 보기 좋게 받아올 수 있다. 
 });
 
 // 글 목록보기 
@@ -32,7 +33,10 @@ router.get('/', (req, res) => { // 로그인이 되어있지 않더라도 글 �
         connection.query(sql, (err, post) => {
             if (err) throw err;
             // console.log(post);
-
+            post.forEach(elem => {
+                const date = elem.created_at;
+                console.log(date);
+            });
             res.render('board/index', { 
                 post: post, 
                 currentPage: page, 
@@ -49,7 +53,7 @@ router.get('/new', (req, res) => {
         res.render('board/new');
     } else {
         console.log('로그인이 필요한 작업');
-        res.redirect('/login');
+        res.redirect('/auth/login');
     }
 });
 
@@ -68,7 +72,7 @@ router.post('/', (req, res) => {
         });
     } else { // 로그인이 안되어 있으면 로그인 창으로 리다이렉트 
         console.log('로그인이 필요한 작업');
-        res.redirect('/login');
+        res.redirect('/auth/login');
     }
 });
 
@@ -76,7 +80,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => { 
     const id = req.params.id; // 이거 body로 쓰면 안됨
     console.log(id);
-    connection.query(`SELECT id, title, content FROM board WHERE id = ${id}`, (err, result, fields) => {
+    connection.query(`SELECT * FROM board WHERE id = ${id}`, (err, result, fields) => {
         if (err) throw err;
 
         res.render('board/show', { result: result[0] });
@@ -103,7 +107,7 @@ router.get('/:id/edit', (req, res) => {
             }
         } else { // 로그인하지 않은 경우 
             console.log('로그인이 필요한 작업');
-            res.redirect('/login'); 
+            res.redirect('/auth/login'); 
         }
     });
 });
@@ -131,7 +135,7 @@ router.post('/:id', (req, res) => {
             }
         } else {
             console.log('로그인이 필요한 작업');
-            res.redirect('/login'); 
+            res.redirect('/auth/login'); 
         }
     }); 
     
@@ -159,7 +163,7 @@ router.post('/:id/delete', (req, res) => {
             }
         } else {
             console.log('로그인이 필요한 작업');
-            res.redirect('/login'); 
+            res.redirect('/auth/login'); 
         }
     });
     
