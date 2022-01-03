@@ -43,6 +43,28 @@ router.get('/', (req, res) => { // 로그인이 되어있지 않더라도 글 �
     });
 });
 
+router.post('/search', (req, res) => {
+    let searchType = req.body.searchType;
+    const keyWord = req.body.keyWord;
+
+    if (searchType === '제목') {
+        searchType = 'title';
+    } else if (searchType === '내용') {
+        searchType = 'content';
+    } else if (searchType === '작성자') {
+        searchType = 'writer_id'; 
+    }
+
+    const sql = `SELECT * FROM board WHERE ${searchType} LIKE '%${keyWord}%'`;
+    connection.query(sql, (err, post) => {
+        if (err) throw err;
+
+        // console.log(post); 
+        res.locals.searched = true; 
+        res.render('board/searched', { post }); 
+    }); 
+});
+
 // 글 쓰기 창
 router.get('/new', (req, res) => {
     if (req.user) {
@@ -64,7 +86,7 @@ router.post('/', (req, res) => {
 
         connection.query(sql, [title, content, writer_id], (err, result) => {
             if (err) throw err;
-            res.redirect('/board');
+            res.redirect('/board'+res.locals.getPostQueryString(false, {page:1}));
         });
     } else { // 로그인이 안되어 있으면 로그인 창으로 리다이렉트 
         console.log('로그인이 필요한 작업');
@@ -99,7 +121,7 @@ router.get('/:id/edit', (req, res) => {
                 res.render('board/edit', { result });
             } else {
                 req.logout(); 
-                res.redirect('/board'); 
+                res.redirect('/board'+res.locals.getPostQueryString()); 
             }
         } else { // 로그인하지 않은 경우 
             console.log('로그인이 필요한 작업');
@@ -123,11 +145,11 @@ router.post('/:id', (req, res) => {
             if (writerId === req.user.id) {
                 connection.query(sql, [title, content], (err, result) => {
                     if (err) throw err;
-                    res.redirect("/board/" + id);
+                    res.redirect("/board/" + id + '/edit' + res.locals.getPostQueryString());
                 });
             } else {
                 req.logout(); 
-                res.redirect('/board'); 
+                res.redirect('/board'+res.locals.getPostQueryString()); 
             }
         } else {
             console.log('로그인이 필요한 작업');
@@ -151,18 +173,16 @@ router.post('/:id/delete', (req, res) => {
                 connection.query(sql, (err, result) => {
                     if (err) throw err;
                     console.log(`${id} 삭제됨`);
-                    res.redirect('/board');
+                    res.redirect('/board'+res.locals.getPostQueryString());
                 });
             } else {
-                req.logout(); 
-                res.redirect('/board'); 
+                res.redirect('/board'+res.locals.getPostQueryString()); 
             }
         } else {
             console.log('로그인이 필요한 작업');
             res.redirect('/auth/login'); 
         }
     });
-    
 });
 
 module.exports = router;

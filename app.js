@@ -6,6 +6,7 @@ const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser'); // 쿠키
 const session = require('express-session'); // 세션 
 const passport = require('./passportConfig'); // passport
+const util = require('./util'); 
 
 const app = express();
 
@@ -59,7 +60,10 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about');
 });
-app.use('/board', boardRouter);
+app.use('/board', (req, res, next) => {
+    res.locals.searched = false; 
+    next();
+}, util.getPostQueryString, boardRouter);
 app.use('/user', userRouter); 
 app.use('/auth', authRouter);
 

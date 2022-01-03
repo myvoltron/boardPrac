@@ -1,10 +1,10 @@
 <div>
-    <a href="/board">글 목록</a>
-    <a href="/board/<%= result.id%>">돌아가기</a>
+    <a href="/board<%= getPostQueryString()%>">글 목록</a>
+    <a href="/board/<%= result.id%><%= getPostQueryString()%>">돌아가기</a>
 </div>
 <h2>글 수정</h2>
 <div>
-    <form id="Form" action="/board/<%= result.id%>" method="post">
+    <form id="Form" action="/board/<%= result.id%><%= getPostQueryString()%>" method="post">
         <div>
             <label for="title">Title</label>
             <input type="text" value="<%= result.title%>" id="title" name="title">

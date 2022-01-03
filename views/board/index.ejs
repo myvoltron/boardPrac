@@ -14,7 +14,7 @@
                 <% post.forEach(elem => { %>
                     <tr>
                         <td><%= elem.id%></td>
-                        <td><a href="/board/<%= elem.id%>"><%= elem.title%></a></td>
+                        <td><a href="/board/<%= elem.id%><%= getPostQueryString() %>"><%= elem.title%></a></td>
                         <% if (elem.writer_id) { %>
                             <td><%= elem.writer_id%></td>
                         <% } else { %>
@@ -29,8 +29,14 @@
 
     <div class="footer">
         <div class="search">
-            <form action="">
-                제목검색 <input type="text" name="title"> <button type="submit">검색</button>
+            <form action="/board/search" method="post">
+                <select name="searchType">
+                    <option>제목</option>
+                    <option>작성자</option>
+                    <option>내용</option>
+                </select>
+                <input type="text" name="keyWord">
+                <button type="submit">검색</button>
             </form>
         </div>
     
@@ -43,24 +49,23 @@
                 %>
                 <ul>
                     <li>
-                        <a href="/board?page=<%= currentPage-1 %>&limit=<%= limit %>">&laquo;</a>
+                        <a href="/board<%= getPostQueryString(false, {page:currentPage-1}) %>">&laquo;</a>
                     </li>
                     <% for(let i=1; i<=maxPage; i++) { %>
                         <% if (i==1 || i==maxPage || (i>=currentPage-offset && i<=currentPage+offset)) { %>
-                            <li><a href="/board?page=<%= i %>&limit=<%= limit %>"><%= i %></a></li>
+                            <li><a href="/board<%= getPostQueryString(false, {page:i})%>"><%= i %></a></li>
                         <% } else if (i==2 || i==maxPage-1) { %>
                             <li><a>...</a></li>
                         <% } %>
                     <% } %>
                     <li>
-                        <a href="/board?page=<%= currentPage+1 %>&limit=<%= limit %>">&raquo;</a>
+                        <a href="/board<%= getPostQueryString(false, {page:currentPage+1})%>">&raquo;</a>
                     </li>
                 </ul>
             </nav>
         </div>
-
         <div>
-            <a href="/board/new" class="write">글 쓰기</a>
+            <a href="/board/new<%= getPostQueryString() %>" class="write">글 쓰기</a>
         </div>
     </div>
 </div>

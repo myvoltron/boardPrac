@@ -94,3 +94,8 @@ ejs에서 따로 처리를 하면 될거같다.
 - https://www.codingfactory.net/10510#i-5
 - CSS flex - https://studiomeal.com/archives/197
 - CSS table - https://www.codingfactory.net/10510#i-5
+
+1월 4일 공부요소 
+- mysql LIKE를 통해서 검색을 할 수 있었다. ``` const sql = `SELECT * FROM board WHERE ${searchType} LIKE '%${keyWord}%'`; ```
+- 각 게시물 상세보기 화면, 쓰기 화면, 수정 화면에서 뒤로가기버튼 또는 목록가기 버튼을 눌렀을 때 pagination이 유지되도록 수정
+- 조금은 비효율적으로 검색을 구현했다고 생각된다. 검색 화면을 따로 만들었는데 그냥 board/index 파일로도 구현할 수 있을 것 같다.

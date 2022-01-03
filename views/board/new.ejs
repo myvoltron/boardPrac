@@ -1,9 +1,9 @@
 <div>
-    <a href="/board">글 목록</a>
+    <a href="/board<%= getPostQueryString()%>">글 목록</a>
 </div>
 <h2>글 쓰기</h2>
 <div>
-    <form action="/board" method="post">
+    <form action="/board<%= getPostQueryString()%>" method="post">
         <table>
             <tr>
                 <td>Title</td>
