@@ -1,0 +1,35 @@
+<div>
+    <h2>Board</h2>
+    <div class="main">
+        <h2>검색결과</h2>
+        <br>
+        <% if (post.length <= 0) { %>
+            <h2>아무것도 검색되지 않았습니다.</h2>
+        <% } else { %>
+        <table id="index">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% post.forEach(elem => { %>
+                    <tr>
+                        <td><%= elem.id%></td>
+                        <td><a href="/board/<%= elem.id%>"><%= elem.title%></a></td>
+                        <% if (elem.writer_id) { %>
+                            <td><%= elem.writer_id%></td>
+                        <% } else { %>
+                            <td>ㅇㅇ</td>
+                        <% } %>
+                        <td><%= elem.created_at%></td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+        <% } %>
+    </div>
+</div>
