@@ -53,6 +53,7 @@ app.use((req, res, next) => { // res객체에 추가 정보
 const boardRouter = require('./routes/board');
 const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+const commentRouter = require('./routes/comment'); 
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -66,6 +67,7 @@ app.use('/board', (req, res, next) => {
 }, util.getPostQueryString, boardRouter);
 app.use('/user', userRouter); 
 app.use('/auth', authRouter);
+app.use('/comment', util.getPostQueryString, commentRouter); 
 
 // 유효하지 않은 url || 404
 app.use((req, res, next) => {

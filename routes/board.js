@@ -98,10 +98,19 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => { 
     const id = req.params.id; // 이거 body로 쓰면 안됨
     console.log(id);
-    connection.query(`SELECT * FROM board WHERE id = ${id}`, (err, result, fields) => {
+    connection.query(`SELECT * FROM board WHERE id = ${id}`, (err, result) => {
         if (err) throw err;
+        connection.query(`SELECT * FROM reply WHERE postID=${id} ORDER BY created_at`, (err, comments) => {
+            if (err) throw err;
 
-        res.render('board/show', { result: result[0] });
+            console.log('댓글들 :' + comments); // 이상하다... 로그인하고 댓글을 써야만 댓글들이 보인다...
+            /*
+
+            로그인하고 댓글을 POST하고나서 리다이렉트될 때 다른 글 주소로 가게 되네... 
+
+            */
+            res.render('board/show', { result: result[0], comments });
+        }); 
     });
 });
 

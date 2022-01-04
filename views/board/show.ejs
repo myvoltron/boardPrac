@@ -30,6 +30,7 @@
             </tbody>
         </table>        
     </div>
+    
     <div class="btnGroup">
         <a href="/board<%= getPostQueryString()%>">Back</a>
         <form action="/board/<%= result.id%>/delete<%= getPostQueryString()%>" method="post">
@@ -37,5 +38,22 @@
             <button type="submit">remove</button>
         </form>
         <a href="/board/<%= result.id %>/edit<%= getPostQueryString()%>">Edit</a>
+    </div>
+
+    <div class="commentContainer">
+        <h4>Comments</h4>
+        <% if (comments.length) {%>
+            <div class="comments">
+                <% comments.forEach((comment) => {%>
+                    <div>작성자 : <%= comment.userID %> | </div>
+                    <div><%= comment.text %></div>
+                    <div>(created_at : <%= comment.created_at %>)</div>
+                <% }) %>
+            </div>
+        <% } %>
+        <form action="/comment?postId=<%= result.id%>" method="post">
+            <input type="text" name="comment">
+            <button type="submit">댓글 추가</button>
+        </form>
     </div>
 </div>
