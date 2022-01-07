@@ -45,13 +45,29 @@
         <% if (comments.length) {%>
             <div class="comments">
                 <% comments.forEach((comment) => {%>
-                    <div>작성자 : <%= comment.userID %> | </div>
-                    <div><%= comment.text %></div>
+                    <% if (comment.isDeleted) { %>
+                        <div>(Deleted comment)</div>
+                    <% } else { %>
+                    <div>작성자 : <%= comment.userID %>
+                    </div>
+                    <div>댓글내용 : <%= comment.text %>
+                    </div>
                     <div>(created_at : <%= comment.created_at %>)</div>
+                    <div>
+                        <form action="/comment/<%= comment.id%>?postId=<%= result.id%><%= getPostQueryString(true)%>" method="post">
+                            <input type="text" name="text">
+                            <button type="submit">edit</button>
+                        </form>
+                        <form action="/comment/<%= comment.id%>/delete?postId=<%= result.id%><%= getPostQueryString(true)%>" method="post">
+                            <button type="submit">delete</button>
+                        </form>
+                    </div>
+                    <% } %>
+                    <hr>
                 <% }) %>
-            </div>
+            </div> 
         <% } %>
-        <form action="/comment?postId=<%= result.id%>" method="post">
+        <form action="/comment?postId=<%= result.id%>?postId=<%= result.id%><%= getPostQueryString(true)%>" method="post">
             <input type="text" name="comment">
             <button type="submit">댓글 추가</button>
         </form>

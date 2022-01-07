@@ -26,13 +26,49 @@ router.post('/', util.isLoggedin, checkPostId, (req, res) => { // 댓글 추가W
     });
 }); 
 
+router.post('/:id', util.isLoggedin, checkPermission, checkPostId, (req, res) => {
+    const post = res.locals.post; 
+    const text = req.body.text; 
+
+    connection.query(`UPDATE reply SET text=? WHERE id=${req.params.id}`, text, (err, result) => {
+        if (err) throw err; 
+
+        return res.redirect('/board/' + post.id + res.locals.getPostQueryString()); 
+    });
+});
+
+router.post('/:id/delete', util.isLoggedin, checkPermission, checkPostId, (req, res) => {
+    const post = res.locals.post; 
+
+    connection.query(`UPDATE reply SET isDeleted=1 WHERE id=${req.params.id}`, (err, result) => {
+        if (err) throw err; 
+
+        return res.redirect('/board/' + post.id + res.locals.getPostQueryString());
+    });
+})
+
 module.exports = router; 
 
 function checkPostId(req, res, next) {
-    connection.query(`select * from board where id='${req.query.postId}'`, (err, post) => {
+    connection.query(`select * from board where id='${req.query.postId}'`, (err, posts) => { // url query에 있는 postId 값으로 본문을 갖고 옴
         if (err) throw err; 
 
-        res.locals.post = post[0]; 
+        res.locals.post = posts[0]; 
         next(); 
+    });
+}
+
+function checkPermission(req, res, next) {
+    connection.query(`select * from reply where id=${req.params.id}`, (err, comments) => {
+        if (err) throw err; 
+        
+        const comment = comments[0]; 
+
+        // 댓글의 userID와 로그인하고 있는 유저의 id 값이 같아야 함 
+        if (comment.userID === req.user.id) {
+            next(); // 같으면 다음 미들웨어로 넘어감 
+        } else {
+            return util.noPermission(req, res); 
+        }
     });
 }
