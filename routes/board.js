@@ -100,6 +100,11 @@ router.get('/:id', (req, res) => {
     console.log(id);
     connection.query(`SELECT * FROM board WHERE id = ${id}`, (err, result) => {
         if (err) throw err;
+
+        connection.query(`UPDATE board SET views=views+1 WHERE id=${id}`, (err, result) => { // 글 상세보기 시 조회수 1 증가
+            if (err) throw err;
+        }); 
+
         connection.query(`SELECT * FROM reply WHERE postID=${id} ORDER BY created_at`, (err, comments) => {
             if (err) throw err;
 
