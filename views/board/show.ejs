@@ -27,6 +27,12 @@
                         <%= result.content %>
                     </td>
                 </tr>
+                <% if (result.fileName.length > 0) { %>
+                    <tr>
+                        <td>파일</td>
+                        <td><small>📁 Attachment <%= result.fileName %></small></td>
+                    </tr>
+                <% } %>
             </tbody>
         </table>        
     </div>

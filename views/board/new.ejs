@@ -3,7 +3,7 @@
 </div>
 <h2>글 쓰기</h2>
 <div>
-    <form action="/board<%= getPostQueryString()%>" method="post">
+    <form action="/board<%= getPostQueryString()%>" enctype="multipart/form-data" method="post">
         <table>
             <tr>
                 <td>Title</td>
@@ -12,6 +12,10 @@
             <tr>
                 <td>Content</td>
                 <td><textarea id="content" name="content" cols="25em" rows="30em"></textarea></td>
+            </tr>
+            <tr>
+                <td>File</td>
+                <td><input type="file" name="file"></td>
             </tr>
             <tr>
                 <td><a href="/board">Back</a></td>

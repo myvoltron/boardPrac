@@ -1,7 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql');
+const path = require('path'); 
 
+const multer = require('multer'); 
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) {
+            done(null, 'public/uploads/');
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },  
+}); 
+
+const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: "localhost",
     user: 'root',
@@ -76,15 +87,19 @@ router.get('/new', (req, res) => {
 });
 
 // 글 쓰기 
-router.post('/', (req, res) => {
-    console.log(req.body, req.user);
+router.post('/', upload.single('file'), (req, res) => {
+    // console.log(req.body, req.user);
+    console.log(req.file); 
+
     if (req.user) { // 로그인 된 상태라면 글을 쓸 수 있다! 
         const writer_id = req.user.id;
         const title = req.body.title;
         const content = req.body.content;
-        const sql = "insert into board(title, content, writer_id) values(?, ?, ?)";
+        const fileName = req.file.filename ? req.file.filename : ''; 
 
-        connection.query(sql, [title, content, writer_id], (err, result) => {
+        const sql = "insert into board(title, content, writer_id, fileName) values(?, ?, ?, ?)";
+
+        connection.query(sql, [title, content, writer_id, fileName], (err, result) => {
             if (err) throw err;
             res.redirect('/board'+res.locals.getPostQueryString(false, {page:1}));
         });
@@ -97,7 +112,7 @@ router.post('/', (req, res) => {
 // 게시판 글 상세 보기 : 이것 또한 로그인이 없어도 접근 가능
 router.get('/:id', (req, res) => { 
     const id = req.params.id; // 이거 body로 쓰면 안됨
-    console.log(id);
+    console.log('id는 ', id);
     connection.query(`SELECT * FROM board WHERE id = ${id}`, (err, result) => {
         if (err) throw err;
 
@@ -114,6 +129,7 @@ router.get('/:id', (req, res) => {
             로그인하고 댓글을 POST하고나서 리다이렉트될 때 다른 글 주소로 가게 되네... 
 
             */
+
             res.render('board/show', { result: result[0], comments });
         }); 
     });
