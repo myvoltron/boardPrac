@@ -92,10 +92,10 @@ router.post('/', upload.single('file'), (req, res) => {
     console.log(req.file); 
 
     if (req.user) { // 로그인 된 상태라면 글을 쓸 수 있다! 
-        const writer_id = req.user.id;
+        const writer_id = req.user.googleID ? req.user.name : req.user.id;
         const title = req.body.title;
         const content = req.body.content;
-        const fileName = req.file.filename ? req.file.filename : ''; 
+        const fileName = req.file ? req.file.filename : ''; 
 
         const sql = "insert into board(title, content, writer_id, fileName) values(?, ?, ?, ?)";
 
