@@ -8,7 +8,7 @@ node.js를 활용한 CRUD 게시판 예제입니다.
 - path
 - express-ejs-layouts
 
-REST api 설계는 다음과 같습니다. 
+RESTful url 설계는 다음과 같습니다. 
 
 - GET /board           ; 글 목록보기
 - GET /board/new       ; 글 생성창보기
