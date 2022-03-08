@@ -7,6 +7,10 @@ node.js를 활용한 CRUD 게시판 예제입니다.
 - express
 - path
 - express-ejs-layouts
+- express-session
+- passport
+- passport-local
+- mysql
 
 RESTful url 설계는 다음과 같습니다. 
 
