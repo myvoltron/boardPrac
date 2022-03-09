@@ -12,6 +12,7 @@ const connection = mysql.createConnection({
     dateStrings: 'date', // date 정보를 보기 좋게 받아올 수 있다. 
 }); 
 
+// 댓글 추가
 router.post('/', util.isLoggedin, checkPostId, (req, res) => { // 댓글 추가WSUI 
     const post = res.locals.post; 
 
@@ -26,6 +27,7 @@ router.post('/', util.isLoggedin, checkPostId, (req, res) => { // 댓글 추가W
     });
 }); 
 
+// 댓글 수정
 router.post('/:id', util.isLoggedin, checkPermission, checkPostId, (req, res) => {
     const post = res.locals.post; 
     const text = req.body.text; 
@@ -37,6 +39,7 @@ router.post('/:id', util.isLoggedin, checkPermission, checkPostId, (req, res) =>
     });
 });
 
+// 댓글 삭제 
 router.post('/:id/delete', util.isLoggedin, checkPermission, checkPostId, (req, res) => {
     const post = res.locals.post; 
 

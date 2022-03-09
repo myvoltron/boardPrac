@@ -6,7 +6,7 @@ const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser'); // 쿠키
 const session = require('express-session'); // 세션 
 const passport = require('./passportConfig'); // passport
-const passportGoogle = require('./passportGoogle'); 
+// const passportGoogle = require('./passportGoogle'); 
 const util = require('./util'); 
 
 const app = express();

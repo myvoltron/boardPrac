@@ -20,21 +20,6 @@ router.post('/login', passport.authenticate('local', {
     res.redirect('/board');
 });
 
-// google login
-router.get('/google',
-    passport.authenticate('google', {
-        scope:
-            ['email', 'profile']
-    })
-);
-
-router.get('/google/callback',
-    passport.authenticate('google', {
-        successRedirect: '/board',
-        failureRedirect: '/auth/login'
-    })
-);
-
 // 로그아웃
 router.get('/logout', (req, res) => {
     console.log('로그아웃 합니다');

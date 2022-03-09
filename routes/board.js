@@ -54,6 +54,7 @@ router.get('/', (req, res) => { // 로그인이 되어있지 않더라도 글 �
     });
 });
 
+// 검색하기 
 router.post('/search', (req, res) => {
     let searchType = req.body.searchType;
     const keyWord = req.body.keyWord;
@@ -76,7 +77,7 @@ router.post('/search', (req, res) => {
     }); 
 });
 
-// 글 쓰기 창
+// 글 쓰기 화면
 router.get('/new', (req, res) => {
     if (req.user) {
         res.render('board/new');
@@ -109,7 +110,7 @@ router.post('/', upload.single('file'), (req, res) => {
     }
 });
 
-// 게시판 글 상세 보기 : 이것 또한 로그인이 없어도 접근 가능
+// 글 상세 보기 : 이것 또한 로그인이 없어도 접근 가능
 router.get('/:id', (req, res) => { 
     const id = req.params.id; // 이거 body로 쓰면 안됨
     console.log('id는 ', id);
@@ -135,7 +136,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// 수정 창 : 접근하고자 하는 user의 id와 글을 쓴 사람 id가 같아야 접근가능
+// 수정 화면 : 접근하고자 하는 user의 id와 글을 쓴 사람 id가 같아야 접근가능
 router.get('/:id/edit', (req, res) => {
     const id = req.params.id;
     // console.log(id);
